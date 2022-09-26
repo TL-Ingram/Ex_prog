@@ -1,20 +1,30 @@
 # load packages ----------------------------------------------------------------
-shelf(tidyverse)
+shelf(tidyverse, tcltk)
+
 
 # create dataframe -------------------------------------------------------------
-my_nested_list <- list(
-  exercise = list("bench_press", "deadlift", "squat"),
-  sets = list("3", "6", "9"),
-  reps = list("3", "6", "9")
-)
+exercise = c("bench_press", "deadlift", "squat")
+sets = c("6", "8", "10")
+reps = c("6", "8", "10")
 
-# Convert nested list to the dataframe by columns
-df <- as.data.frame(do.call(cbind, my_nested_list))
-df
+  
+list <- list(ex = "exercise", exx = "no", exxx = "ok") # names for testing only
+test <- function(y) {
+  x <- tk_select.list(exercise, multiple = T)
+  y <- tk_select.list(sets, multiple = T)
+  z <- tk_select.list(reps, multiple = T)
+  nested <- list(x,y,z)
+}
 
-companies <- c("AAA","BBB","CCC")
-links <- c("c:/file1","c:/secret/file3","c:/file3")
+result <- lapply(list, test)
+names(result) <- names(list)  # rename the results
+D <- result  # replace the original values with the "updated" ones
 
-i <- select.list(companies, title="Choose company")
-1#df <- xmlToDataFrame(links[companies==i])
 
+df <- as.data.frame(do.call(cbind, D))
+testss <- df %>%
+  t() %>%
+  as.data.frame()
+
+# exercise, sets, reps, rest, weight
+# maybe make it so it auto pulls in the ex, sets, reps from other script?
